@@ -4,5 +4,5 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class AdminController {
-//    Future feature, once roles are implemented
+//    TODO: Future feature, once roles are implemented
 }

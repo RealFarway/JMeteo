@@ -2,6 +2,7 @@ package com.springframework.jmeteowebapp.model;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "City")
@@ -16,6 +17,9 @@ public class City {
     @Column(name = "weather")
     private String weatherData;
     private Timestamp updated_at;
+
+    @ManyToMany(mappedBy = "addedCities")
+    List<Users> addedByUser;
 
     public City(String name, String region, String location, String weatherData, Timestamp updated_at) {
         this.name = name;
