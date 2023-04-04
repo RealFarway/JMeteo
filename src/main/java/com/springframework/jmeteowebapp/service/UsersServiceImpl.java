@@ -3,7 +3,9 @@ package com.springframework.jmeteowebapp.service;
 import com.springframework.jmeteowebapp.model.Users;
 import com.springframework.jmeteowebapp.repository.UsersRepository;
 import com.springframework.jmeteowebapp.web.dto.UserRegistrationDTO;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsersServiceImpl implements UsersService {
     private UsersRepository usersRepository;
 

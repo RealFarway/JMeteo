@@ -30,7 +30,7 @@ public class Users {
             inverseJoinColumns = @JoinColumn(name = "city_id"))
     List<City> addedCities;
 
-    public Users(String username, String password, String name, String surname) {
+    public Users(String name, String surname,String username, String password) {
         this.username = username;
         this.password = password;
         this.name = name;
