@@ -10,23 +10,27 @@
 <div class="container">
     <div class="row">
         <div class="d-flex justify-content-center">
-            <div th:if="${param.success}">
-                <div class="alert alert-info">
-                    Registration successful!
-                    <!--TODO: Improve registration success message-->
-                </div>
-            </div>
             <form th:action="@{/registration}" method="post" th:object="${user}">
+
+                <!--SUCCESS MESSAGE-->
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        Registration successful!
+                    </div>
+                </div>
+
                 <!--NAME FIELD-->
                 <div class="form-group mt-3">
                     <label class="control-label" for="name">Name</label>
                     <input id="name" class="form-control" th:field="*{name}" required autofocus="autofocus"/>
                 </div>
+
                 <!--SURNAME FIELD-->
                 <div class="form-group mt-3">
                     <label class="control-label" for="surname">Surname</label>
                     <input id="surname" class="form-control" th:field="*{surname}" required/>
                 </div>
+
                 <!--USERNAME FIELD-->
                 <div class="form-group mt-3">
                     <label class="control-label" for="username">
@@ -34,6 +38,7 @@
                     </label>
                     <input id="username" class="form-control" th:field="*{username}" required/>
                 </div>
+
                 <!--PASSWORD FIELD-->
                 <div class="form-group mt-3">
                     <label class="control-label" for="password">
@@ -42,8 +47,9 @@
                     <input id="password" class="form-control" type="password" th:field="*{password}" required/>
                 </div>
 
+                <!--BUTTONS AND LINK-->
                 <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary" id="login-submit" name="login-submit">Register</button>
                     <span>Already registered? <a href="/" th:href="@{/login}">Login</a></span>
                 </div>
             </form>

@@ -1,6 +1,6 @@
 package com.springframework.jmeteowebapp.controller;
 
-import com.springframework.jmeteowebapp.service.UsersService;
+import com.springframework.jmeteowebapp.service.UserService;
 import com.springframework.jmeteowebapp.web.dto.UserRegistrationDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
-    private UsersService usersService;
+    private UserService userService;
 
-    public RegistrationController(UsersService usersService) {
+    public RegistrationController(UserService userService) {
 //        super();
-        this.usersService = usersService;
+        this.userService = userService;
     }
 
     @ModelAttribute("user")
@@ -30,7 +30,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDTO registrationDTO) {
-        usersService.save(registrationDTO);
+        userService.save(registrationDTO);
         //TODO: check if username is unique before trying to save it on DB
         return "redirect:/registration?success";
     }
