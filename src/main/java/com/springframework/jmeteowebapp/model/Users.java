@@ -1,11 +1,14 @@
 package com.springframework.jmeteowebapp.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
-@Table(name = "User", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-public class User {
+@Table(name = "Users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+public class Users {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +17,24 @@ public class User {
     private String password;
     private String name;
     private String surname;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
     private Timestamp created_at;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<UserLogin> loginLogs;
 
-    public User(String username, String password, String name, String surname, Timestamp created_at) {
+    @ManyToMany
+    @JoinTable(
+            name = "cities_added",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id"))
+    List<City> addedCities;
+
+    public Users(String name, String surname,String username, String password) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.created_at = created_at;
     }
 
     public long getId() {

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "UserLogin")
 public class UserLogin {
 
     @Id
@@ -11,9 +12,9 @@ public class UserLogin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @Column(name = "login_time")
     private Timestamp loginTime;
@@ -21,7 +22,7 @@ public class UserLogin {
     @Column(name = "login_success")
     private boolean loginSuccess;
 
-    public UserLogin(User user, Timestamp loginTime, boolean loginSuccess) {
+    public UserLogin(Users user, Timestamp loginTime, boolean loginSuccess) {
         this.user = user;
         this.loginTime = loginTime;
         this.loginSuccess = loginSuccess;
@@ -35,11 +36,11 @@ public class UserLogin {
         this.id = id;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 
