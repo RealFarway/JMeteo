@@ -10,7 +10,7 @@ public class City {
     @Id
     @Column(name = "city_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String region;
     private String location;
@@ -20,6 +20,10 @@ public class City {
 
     @ManyToMany(mappedBy = "addedCities")
     List<Users> addedByUser;
+
+    public City(){
+
+    }
 
     public City(String name, String region, String location, String weatherData, Timestamp updated_at) {
         this.name = name;

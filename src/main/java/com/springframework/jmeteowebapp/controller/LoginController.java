@@ -17,15 +17,7 @@ public class LoginController {
     }
 
     @PostMapping
-    public String login(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        try {
-            request.login(username, password);
-            return "redirect:/home";
-        } catch (ServletException e) {
-            // handle authentication failure
-            return "redirect:/login";
-        }
+    public String login() {
+        return "login";
     }
 }
