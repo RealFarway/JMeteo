@@ -28,9 +28,6 @@ public class Users {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id"))
     private Collection<Role> roles;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<UserLogin> loginLogs;
-
     @ManyToMany
     @JoinTable(
             name = "cities_added",
@@ -104,5 +101,10 @@ public class Users {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Users getUserByUsername(String username){
+        //TODO: Get correct User via model query
+        return this;
     }
 }

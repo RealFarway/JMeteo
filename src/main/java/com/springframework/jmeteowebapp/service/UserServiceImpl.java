@@ -2,6 +2,7 @@ package com.springframework.jmeteowebapp.service;
 
 import com.springframework.jmeteowebapp.model.Role;
 import com.springframework.jmeteowebapp.model.Users;
+import com.springframework.jmeteowebapp.repository.RoleRepository;
 import com.springframework.jmeteowebapp.repository.UsersRepository;
 import com.springframework.jmeteowebapp.web.dto.UserRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +20,19 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private UsersRepository usersRepository;
+    private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UsersRepository usersRepository) {
-//        super();
+    public UserServiceImpl(UsersRepository usersRepository, RoleRepository roleRepository) {
         this.usersRepository = usersRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public Users save(UserRegistrationDTO registrationDTO) {
         Users user = new Users(registrationDTO.getName(), registrationDTO.getSurname(),
-                registrationDTO.getUsername(), passwordEncoder.encode(registrationDTO.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+                registrationDTO.getUsername(), passwordEncoder.encode(registrationDTO.getPassword()), Arrays.asList(roleRepository.findFirstByName("ROLE_USER")));
         return usersRepository.save(user);
     }
 
