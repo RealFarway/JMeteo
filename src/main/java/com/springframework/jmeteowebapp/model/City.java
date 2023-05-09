@@ -12,12 +12,13 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String region;
-    private String location;
+    private String country;
+    private String state;
+    private String lat;
+    private String lon;
     @Column(name = "weather")
     private String weatherData;
     private Timestamp updated_at;
-
     @ManyToMany(mappedBy = "addedCities")
     List<Users> addedByUser;
 
@@ -25,20 +26,18 @@ public class City {
 
     }
 
-    public City(String name, String region, String location, String weatherData, Timestamp updated_at) {
+    public City(String name, String country, String state, String lat, String lon, String weatherData, Timestamp updated_at) {
         this.name = name;
-        this.region = region;
-        this.location = location;
+        this.country = country;
+        this.state = state;
+        this.lat = lat;
+        this.lon = lon;
         this.weatherData = weatherData;
         this.updated_at = updated_at;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -49,20 +48,36 @@ public class City {
         this.name = name;
     }
 
-    public String getRegion() {
-        return region;
+    public String getCountry() {
+        return country;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getLocation() {
-        return location;
+    public String getState() {
+        return state;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
     }
 
     public String getWeatherData() {

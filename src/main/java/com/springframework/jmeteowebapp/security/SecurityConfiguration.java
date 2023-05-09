@@ -16,10 +16,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableMethodSecurity
 public class SecurityConfiguration {
 
-
-//    @Autowired
-//    private UserService userService;
-
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
@@ -30,19 +26,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(userService);
-//        auth.setPasswordEncoder(passwordEncoder());
-//        return auth;
-//    }
-
-//    @Bean
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider());
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -51,12 +34,11 @@ public class SecurityConfiguration {
                                 authz
                                         .requestMatchers("/login", "/registration").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                                        .requestMatchers("/home/**").hasAnyRole("USER", "ADMIN")
+                                        .requestMatchers("/home/**", "/user/").hasAnyRole("USER", "ADMIN")
                                         .anyRequest().authenticated()
                                         .and()
                                         .formLogin()
                                         .loginPage("/login")
-                                        .defaultSuccessUrl("/home", true)
                                         .successHandler(authenticationSuccessHandler)
                                         .failureHandler(authenticationFailureHandler)
                                         .permitAll()
