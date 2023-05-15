@@ -1,14 +1,14 @@
 package com.springframework.jmeteowebapp.controller;
 
+import com.springframework.jmeteowebapp.model.City;
 import com.springframework.jmeteowebapp.model.Users;
+import com.springframework.jmeteowebapp.service.CityService;
 import com.springframework.jmeteowebapp.service.UserCitiesService;
 import com.springframework.jmeteowebapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -21,6 +21,8 @@ public class UserController {
     private UserCitiesService userCitiesService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private CityService cityService;
 
     @GetMapping("/{userId}")
     public String getUserCities(@PathVariable("userId") Long userId, Model model, Principal principal) {
@@ -42,6 +44,20 @@ public class UserController {
             model.addAttribute("error", "User not found");
             return "error";
         }
+    }
+
+    @PostMapping("/addCity")
+    public String addCityToUserDashboard(@RequestParam("cityName") String cityName, @RequestParam("cityLat") String lat, @RequestParam("cityLon") String lon, Principal principal, Model model) {
+        Users loggedInUser = userService.loadUserByUsername(principal.getName());
+        City city = cityService.addCityToUser(loggedInUser.getId(), cityName, null, null, lat, lon);
+
+        if (city == null) {
+            model.addAttribute("errorMessage", "City not found.");
+        } else {
+            model.addAttribute("successMessage", "City added successfully.");
+        }
+
+        return "redirect:/user";
     }
 
     @GetMapping

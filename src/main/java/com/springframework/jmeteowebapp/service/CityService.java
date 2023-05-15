@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface CityService {
     City save(CityRegistrationDTO registrationDTO);
-    City update(CityRegistrationDTO registrationDTO);
+    City addCityToUser(Long userId, String city, String country, String state, String lat, String lon);
 }

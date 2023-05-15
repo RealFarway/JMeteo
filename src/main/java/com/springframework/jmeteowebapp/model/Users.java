@@ -123,6 +123,10 @@ public class Users implements UserDetails {
         this.username = username;
     }
 
+    public List<City> getAddedCities() {
+        return addedCities;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return mapRolesToAuthorities(getRoles());

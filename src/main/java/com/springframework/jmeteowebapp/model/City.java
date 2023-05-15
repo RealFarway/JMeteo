@@ -16,6 +16,7 @@ public class City {
     private String state;
     private String lat;
     private String lon;
+    @Lob
     @Column(name = "weather")
     private String weatherData;
     private Timestamp updated_at;
@@ -26,6 +27,14 @@ public class City {
 
     }
 
+    public City(String name, String country, String lat, String lon, String weatherData, Timestamp updated_at) {
+        this.name = name;
+        this.country = country;
+        this.lat = lat;
+        this.lon = lon;
+        this.weatherData = weatherData;
+        this.updated_at = updated_at;
+    }
     public City(String name, String country, String state, String lat, String lon, String weatherData, Timestamp updated_at) {
         this.name = name;
         this.country = country;
