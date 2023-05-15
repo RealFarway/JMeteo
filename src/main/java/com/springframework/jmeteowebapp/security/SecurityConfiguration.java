@@ -34,8 +34,7 @@ public class SecurityConfiguration {
                                 authz
                                         .requestMatchers("/login", "/registration").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                                        .requestMatchers("/home/**", "/user/").hasAnyRole("USER", "ADMIN")
-                                        .anyRequest().authenticated()
+                                        .requestMatchers("/user/", "/deleteCity", "/addCity").hasAnyRole("USER", "ADMIN")                                     .anyRequest().authenticated()
                                         .and()
                                         .formLogin()
                                         .loginPage("/login")

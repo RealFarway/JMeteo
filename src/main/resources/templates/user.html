@@ -28,8 +28,7 @@
 </nav>
 
 <main class="container">
-    <!--TODO: Tile System for addedCity display -- thymeleaf use th:each="city : ${cities}"-->
-    <h2>Benvenuto <span sec:authentication="name"></span></h2>
+    <h2>Welcome <span sec:authentication="name"></span></h2>
 
     <div sec:authorize="hasRole('USER')">Text visible to user.</div>
     <div sec:authorize="hasRole('ADMIN')">Text visible to admin.</div>
@@ -37,6 +36,12 @@
     <div class="container">
         <div th:each="city : ${listCities}">
             <h3 th:text="${city.name}"></h3>
+            <form th:action="@{/user/deleteCity}" method="post" id="removeCityForm">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <input type="hidden" name="cityId" th:value="${city.id}" />
+                <input type="submit" value="Remove City" onclick="return confirm('Are you sure you want to remove this city?')" />
+            </form>
+
             <div id="openweathermap-widget-15" th:id="'openweathermap-widget-' + ${city.id}"></div>
             <script th:inline="javascript">
                     window.myWidgetParam ? window.myWidgetParam : window.myWidgetParam = [];
@@ -74,6 +79,7 @@
         <div class="form-group">
             <label for="cityName">City Name</label>
             <input type="text" class="form-control" id="cityName" name="cityName" required>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
             <input type="hidden" id="cityLat" name="cityLat">
             <input type="hidden" id="cityLon" name="cityLon">
         </div>
