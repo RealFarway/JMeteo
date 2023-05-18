@@ -12,12 +12,14 @@ public class UserLogin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users user;
+    @Column(name = "login_username")
+    private String username;
 
     @Column(name = "login_time")
     private Timestamp loginTime;
+
+    @Column(name = "login_ip")
+    private String loginIp;
 
     @Column(name = "login_success")
     private boolean loginSuccess;
@@ -26,26 +28,23 @@ public class UserLogin {
 
     }
 
-    public UserLogin(Users user, Timestamp loginTime, boolean loginSuccess) {
-        this.user = user;
+    public UserLogin(String username, Timestamp loginTime, String loginIP, boolean loginSuccess) {
+        this.username = username;
         this.loginTime = loginTime;
+        this.loginIp = loginIP;
         this.loginSuccess = loginSuccess;
     }
 
     public Long getId() {
         return id;
     }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
-    public Users getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(Users user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Timestamp getLoginTime() {
@@ -54,6 +53,14 @@ public class UserLogin {
 
     public void setLoginTime(Timestamp loginTime) {
         this.loginTime = loginTime;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 
     public boolean isLoginSuccess() {
