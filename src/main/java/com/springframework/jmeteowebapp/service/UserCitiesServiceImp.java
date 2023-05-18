@@ -1,14 +1,16 @@
 package com.springframework.jmeteowebapp.service;
 
+import com.springframework.jmeteowebapp.exception.CityAlreadyAddedException;
+import com.springframework.jmeteowebapp.exception.UserNotFoundException;
 import com.springframework.jmeteowebapp.model.City;
 import com.springframework.jmeteowebapp.model.Users;
 import com.springframework.jmeteowebapp.repository.CityRepository;
 import com.springframework.jmeteowebapp.repository.UsersRepository;
 import com.springframework.jmeteowebapp.web.dto.CityRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @Service
@@ -41,22 +43,21 @@ public class UserCitiesServiceImp implements UserCitiesService {
         }
 
         // Find the user
-        Users user = usersRepository.findById(userId).orElse(null);
-
-        if (user == null) {
-            // If the user is not found, handle it in the controller
-            // TODO: User case where this can happen
-            return null;
-        }
+        Users user = usersRepository.findById(userId).orElseThrow(
+                () -> new UserNotFoundException("User not found with id: " + userId));
 
         if (user.getAddedCities().contains(foundCity)) {
             // If the user already has the city, handle it in the controller
-            // TODO: return a specific error for this case
-            return null;
+            throw new CityAlreadyAddedException("City already added to the user's list.");
         }
 
-        // Add the city to the user's addedCities
+        // Update the weatherData of the city
+        foundCity.setWeatherData(weatherService.getCityWeather(foundCity.getLat(), foundCity.getLon()));
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        foundCity.setUpdated_at(timestamp);
+        // add the city to the addedcities of the user
         user.addedCities.add(foundCity);
+
 
         // Save the updated user
         usersRepository.save(user);

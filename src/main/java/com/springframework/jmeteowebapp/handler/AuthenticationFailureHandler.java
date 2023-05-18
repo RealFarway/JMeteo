@@ -19,7 +19,7 @@ public class AuthenticationFailureHandler implements org.springframework.securit
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        // Logging the login attempt
+        // Save a log of the failed login attempt
         UserLogin log = new UserLogin(request.getParameter("username"), new Timestamp(System.currentTimeMillis()), request.getRemoteAddr(), false);
         userLoginRepository.save(log);
 
