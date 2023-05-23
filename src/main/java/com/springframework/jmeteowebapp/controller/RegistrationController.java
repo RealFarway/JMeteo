@@ -40,6 +40,6 @@ public class RegistrationController {
         }
         //if not, save user
         userService.save(registrationDTO);
-        return "redirect:/registration?success";
+        return "redirect:/login?success";
     }
 }

@@ -16,6 +16,7 @@
             background-color: #cce5ff;
             color: #004085;
         }
+
     </style>
 </head>
 <body>
@@ -34,6 +35,14 @@
          data-delay="2000" data-autohide="false" style="max-width: 90vw;">
         <div class="toast-body">
             You have been logged out.
+        </div>
+    </div>
+
+    <!--REGISTRATION MESSAGE-->
+    <div th:if="${param.success}" class="toast toast-info" role="alert" aria-live="assertive" aria-atomic="true"
+         data-delay="2000" data-autohide="false" style="max-width: 90vw;">
+        <div class="toast-body">
+            You have been registered successfully.
         </div>
     </div>
 </div>
@@ -73,6 +82,7 @@ $(document).ready(function(){
         $(this).toast('hide');
     });
 });
+
 
 </script>
 </body>
