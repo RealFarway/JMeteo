@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     Users save(UserRegistrationDTO registrationDTO);
+    Users update(Users user);
     Users loadUserByUsername(String username) throws UsernameNotFoundException;
     Optional<Users> getUserById(Long userId);
 }
