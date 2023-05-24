@@ -1,5 +1,6 @@
 package com.springframework.jmeteowebapp.service;
 
+import com.springframework.jmeteowebapp.exception.UserNotFoundException;
 import com.springframework.jmeteowebapp.model.Role;
 import com.springframework.jmeteowebapp.model.Users;
 import com.springframework.jmeteowebapp.repository.RoleRepository;
@@ -44,8 +45,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users update(Users user) {
-        return usersRepository.save(user);
+    public void updateUser(Users user) {
+        Optional<Users> existingUserOptional = usersRepository.findById(user.getId());
+
+        if (!existingUserOptional.isPresent()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        Users existingUser = existingUserOptional.get();
+
+        existingUser.setName(user.getName());
+        existingUser.setSurname(user.getSurname());
+
+        usersRepository.save(existingUser);
+    }
+
+    @Override
+    public void updatePassword(Users user, String currentPassword, String newPassword, String confirmPassword) throws Exception {
+        // Confirm that the current password is correct
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new Exception("Current password is incorrect");
+        }
+
+        // Confirm that the new password and confirm password match
+        if (!newPassword.equals(confirmPassword)) {
+            throw new Exception("New password and confirm password do not match");
+        }
+
+        // If everything checks out, encode the new password and save it
+        user.setPassword(passwordEncoder.encode(newPassword));
+        usersRepository.save(user);
     }
 
     @Override

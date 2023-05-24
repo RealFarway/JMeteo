@@ -17,9 +17,37 @@
             margin-left: .5rem;
             margin-right: .5rem;
         }
+        .toast-error {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .toast-info {
+            background-color: #cce5ff;
+            color: #004085;
+        }
     </style>
 </head>
 <body>
+<!-- TOAST CONTAINER -->
+<div class="position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 5" id="toastPlacement">
+    <!--ERROR MESSAGE-->
+    <div th:if="${param.error}" class="toast toast-error" role="alert" aria-live="assertive" aria-atomic="true"
+         data-delay="2000" data-autohide="false" style="max-width: 90vw;">
+        <div class="toast-body">
+            Error! Your data has not been updated.
+        </div>
+    </div>
+
+    <!--SUCCESS MESSAGE-->
+    <div th:if="${param.success}" class="toast toast-info" role="alert" aria-live="assertive" aria-atomic="true"
+         data-delay="2000" data-autohide="false" style="max-width: 90vw;">
+        <div class="toast-body">
+            Success! Your data has been updated successfully.
+        </div>
+    </div>
+</div>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <div class="container-fluid">
         <!-- Home Section -->
@@ -57,33 +85,92 @@
 </nav>
 
 <div class="container">
-    <h2>User Profile</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <!-- This is the left side menu. -->
+            <div class="list-group">
+                <a href="#user-info" class="list-group-item list-group-item-action active" data-bs-target="#user-info" data-bs-toggle="tab">User Information</a>
+                <a href="#password-change" class="list-group-item list-group-item-action" data-bs-target="#password-change" data-bs-toggle="tab">Change Password</a>
+            </div>
 
-    <form th:action="@{/profile/update}" th:object="${user}" method="post">
-        <input type="hidden" th:field="*{id}" />
-
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" th:field="*{username}" disabled readonly/>
         </div>
+        <div class="col-md-9">
+            <!-- This is where the forms will be displayed. -->
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="user-info">
+                    <!--Edit User data form-->
+                    <h2 class="mt-3">User Profile</h2>
+                    <form th:action="@{/profile/update}" th:object="${user}" method="post">
+                        <div class="form-group mt-3">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" th:field="*{username}" disabled
+                                   readonly/>
+                        </div>
 
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" th:field="*{name}" required/>
+                        <div class="form-group mt-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" required/>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="surname">Surname</label>
+                            <input type="text" class="form-control" id="surname" th:field="*{surname}"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Update</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="password-change">
+                    <!--Change password form-->
+                    <h2 class="mt-3">Change Password</h2>
+                    <form th:action="@{/profile/update-password}" method="post">
+                        <div class="form-group mt-3">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" class="form-control" id="current-password" name="current-password"
+                                   required/>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="new-password">New Password</label>
+                            <input type="password" class="form-control" id="new-password" name="new-password" required/>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+                                   required/>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Change Password</button>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div class="form-group">
-            <label for="surname">Surname</label>
-            <input type="text" class="form-control" id="surname" th:field="*{surname}" />
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" th:field="*{password}" required/>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+    </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+<!--checks the URL for tab identifiers, if it finds one, it will show the tab.-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let hash = window.location.hash;
+        let tabPane = document.querySelector(hash);
+        let tabLink = document.querySelector(`[href="${hash}"]`);
+
+        if (tabPane && tabLink) {
+            let tab = new bootstrap.Tab(tabLink);
+            tab.show();
+        }
+    });
+
+$(document).ready(function(){
+    $('.toast').toast('show');
+    $('.toast').click(function(){
+        $(this).toast('hide');
+    });
+});
+</script>
 </body>
 </html>
