@@ -56,7 +56,7 @@
             Home
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -155,7 +155,8 @@
 <!--checks the URL for tab identifiers, if it finds one, it will show the tab.-->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let hash = window.location.hash;
+    let hash = window.location.hash;
+    if(hash) {
         let tabPane = document.querySelector(hash);
         let tabLink = document.querySelector(`[href="${hash}"]`);
 
@@ -163,6 +164,7 @@
             let tab = new bootstrap.Tab(tabLink);
             tab.show();
         }
+    }
     });
 
 $(document).ready(function(){

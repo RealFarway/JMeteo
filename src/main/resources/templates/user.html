@@ -30,7 +30,7 @@
             Home
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -71,7 +71,7 @@
             <div th:each="city : ${listCities}" class="col">
                 <div class="card custom-card">
                     <div class="card-body">
-                        <form th:action="@{/user/deleteCity}" method="post">
+                        <form th:action="@{/user/deleteCity}" method="post" class="mb-1">
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                             <input type="hidden" name="cityId" th:value="${city.id}"/>
                             <input type="submit" value="Remove City"
@@ -112,20 +112,17 @@
 
             <!-- Tile for the "Add City" form -->
             <div class="col">
-                <div class="card custom-card">
+                <div class="card custom-card mb-3">
                     <div class="card-body text-center">
-                        <button class="btn btn-primary">+
-                        </button>
                         <form th:action="@{/user/addCity}" method="post" id="addCityForm">
-                            <div class="form-group">
-                                <label for="cityName">City Name</label>
-                                <input type="text" class="form-control" id="cityName" name="cityName" required>
+                            <div class="form-group mb-3">
+                                <label for="cityName" class="mb-2">City Name</label>
+                                <input type="text" class="form-control mb-2" id="cityName" name="cityName" required>
                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                                 <input type="hidden" id="cityLat" name="cityLat">
                                 <input type="hidden" id="cityLon" name="cityLon">
                             </div>
-                            <button type="submit" class="btn btn-primary">Add City</button>
-                        </form>
+                            <button type="submit" class="btn btn-primary" id="addCityButton" disabled>Add City</button>                        </form>
                     </div>
                 </div>
             </div>
@@ -166,10 +163,16 @@
             select: function(event, ui) {
                 $("#cityLat").val(ui.item.lat);
                 $("#cityLon").val(ui.item.lon);
+
+                // Enable the "Add City" button once a selection is made
+                $("#addCityButton").prop("disabled", false);
             }
         });
     });
-</script>
 
+    $("#cityName").on("keyup", function() {
+    $("#addCityButton").prop("disabled", true);
+});
+</script>
 </body>
 </html>
