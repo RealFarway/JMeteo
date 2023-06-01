@@ -30,6 +30,12 @@
             Home
         </a>
 
+        <!-- Admin Link -->
+        <a class="navbar-brand" th:href="@{/admin}" sec:authorize="hasAnyRole('ADMIN', 'SUPER_ADMIN')" style="padding-left: 15px;">
+            <i class="fa fa-lock"></i>
+            Admin
+        </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

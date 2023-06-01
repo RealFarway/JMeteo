@@ -1,6 +1,5 @@
 package com.springframework.jmeteowebapp.controller;
 
-import com.springframework.jmeteowebapp.repository.UsersRepository;
 import com.springframework.jmeteowebapp.service.UserService;
 import com.springframework.jmeteowebapp.web.dto.UserRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = {"/registration", "/registration/"})
 public class RegistrationController {
-    private UserService userService;
-
     @Autowired
-    private UsersRepository usersRepository;
-
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @ModelAttribute("user")
     public UserRegistrationDTO userRegistrationDTO() {
@@ -35,7 +28,7 @@ public class RegistrationController {
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDTO registrationDTO) {
         //Check if username already exists
-        if (usersRepository.findByUsername(registrationDTO.getUsername()) != null) {
+        if (userService.loadUserByUsername(registrationDTO.getUsername()) != null) {
             return "redirect:/registration?error";
         }
         //if not, save user

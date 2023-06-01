@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,9 +38,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = usersRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
 
         return user;
     }
@@ -56,6 +54,20 @@ public class UserServiceImpl implements UserService {
 
         existingUser.setName(user.getName());
         existingUser.setSurname(user.getSurname());
+
+        usersRepository.save(existingUser);
+    }
+
+    public void updateRoles(Users user, Collection<Role> roles) throws Exception {
+        Optional<Users> existingUserOptional = usersRepository.findById(user.getId());
+
+        if (!existingUserOptional.isPresent()) {
+            throw new UserNotFoundException("User not found");
+        }
+
+        Users existingUser = existingUserOptional.get();
+
+        existingUser.setRoles(roles);
 
         usersRepository.save(existingUser);
     }
@@ -82,6 +94,18 @@ public class UserServiceImpl implements UserService {
         Optional<Users> user = usersRepository.findById(userId);
 
         return user;
+    }
+
+    @Override
+    public List<Users> getAllUsers() {
+        List<Users> users = usersRepository.findAll();
+
+        return users;
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        usersRepository.deleteById(userId);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
