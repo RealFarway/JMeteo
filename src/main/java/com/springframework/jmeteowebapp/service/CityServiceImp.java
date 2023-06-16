@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Service
 public class CityServiceImp implements CityService {
@@ -17,5 +18,10 @@ public class CityServiceImp implements CityService {
     public City save(CityRegistrationDTO registrationDTO) {
         City city = new City(registrationDTO.getName(), registrationDTO.getCountry(), registrationDTO.getLat(), registrationDTO.getLon(), registrationDTO.getWeather(), new Timestamp(System.currentTimeMillis()));
         return cityRepository.save(city);
+    }
+
+    @Override
+    public Optional<City> loadCityById(Long cityId) {
+        return cityRepository.findById(cityId);
     }
 }

@@ -33,8 +33,9 @@ public class SecurityConfiguration {
                             try {
                                 authz
                                         .requestMatchers("/login", "/registration").permitAll()
-                                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                                        .requestMatchers("/user/", "/deleteCity", "/addCity").hasAnyRole("USER", "ADMIN")                                     .anyRequest().authenticated()
+                                        .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                                        .requestMatchers("/user/", "/deleteCity", "/addCity", "/deleteCity").hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
+                                        .anyRequest().authenticated()
                                         .and()
                                         .formLogin()
                                         .loginPage("/login")

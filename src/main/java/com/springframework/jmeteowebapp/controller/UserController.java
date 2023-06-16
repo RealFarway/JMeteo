@@ -5,7 +5,7 @@ import com.springframework.jmeteowebapp.exception.UnauthorizedAccessException;
 import com.springframework.jmeteowebapp.exception.UserNotFoundException;
 import com.springframework.jmeteowebapp.model.City;
 import com.springframework.jmeteowebapp.model.Users;
-import com.springframework.jmeteowebapp.repository.CityRepository;
+import com.springframework.jmeteowebapp.service.CityService;
 import com.springframework.jmeteowebapp.service.UserCitiesService;
 import com.springframework.jmeteowebapp.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
     @Autowired
-    private CityRepository cityRepository;
+    private CityService cityService;
 
     @GetMapping("/{userId}")
     public String getUserCities(@PathVariable("userId") String userId, Model model, Principal principal) {
@@ -80,7 +80,7 @@ public class UserController {
     public String removeCityFromUser(@RequestParam("cityId") Long cityId, Principal principal, Model model, RedirectAttributes redirectAttrs) {
 
         Users loggedInUser = userService.loadUserByUsername(principal.getName());
-        Optional<City> city = cityRepository.findById(cityId);
+        Optional<City> city = cityService.loadCityById(cityId);
 
         // TODO: Re-do error handling
         if (!city.isPresent()) {

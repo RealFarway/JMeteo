@@ -1,0 +1,19 @@
+.toast-error {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.toast-info {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.divider-vertical {
+    border-left: 1px solid #9B9D9E;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.custom-card {
+    border: none;
+}

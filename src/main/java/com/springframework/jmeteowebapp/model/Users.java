@@ -119,6 +119,10 @@ public class Users implements UserDetails {
         return true;
     }
 
+    public boolean hasRole(String roleName) {
+        return this.roles.stream().anyMatch(role -> role.getName().equals(roleName));
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
