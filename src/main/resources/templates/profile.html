@@ -11,22 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <style>
-        .divider-vertical {
-            border-left: 1px solid #9B9D9E;  /* Adjust color as needed */
-            margin-left: .5rem;
-            margin-right: .5rem;
-        }
-        .toast-error {
-            background-color: #f8d7da;
-            color: #842029;
-        }
-
-        .toast-info {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <body>
 <!-- TOAST CONTAINER -->
@@ -158,27 +143,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<!--checks the URL for tab identifiers, if it finds one, it will show the tab.-->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-    let hash = window.location.hash;
-    if(hash) {
-        let tabPane = document.querySelector(hash);
-        let tabLink = document.querySelector(`[href="${hash}"]`);
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/profile.js}"></script>
 
-        if (tabPane && tabLink) {
-            let tab = new bootstrap.Tab(tabLink);
-            tab.show();
-        }
-    }
-    });
-
-$(document).ready(function(){
-    $('.toast').toast('show');
-    $('.toast').click(function(){
-        $(this).toast('hide');
-    });
-});
-</script>
 </body>
 </html>

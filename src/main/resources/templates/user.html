@@ -10,16 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
-    <style>
-        .custom-card {
-            border: none;
-        }
-        .divider-vertical {
-            border-left: 1px solid #9B9D9E;  /* Adjust color as needed */
-            margin-left: .5rem;
-            margin-right: .5rem;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/custom.css}">
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -141,44 +132,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-<script>
-    $(function() {
-        $("#cityName").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "https://api.opencagedata.com/geocode/v1/json",
-                    dataType: "json",
-                    data: {
-                        key: "YOUR_OPENCAGEDATA_API_KEY";
-                        q: request.term,
-                        limit: 10
-                    },
-                    success: function(data) {
-                        response($.map(data.results, function(item) {
-                            return {
-                                label: item.formatted,
-                                value: item.formatted,
-                                lat: item.geometry.lat,
-                                lon: item.geometry.lng
-                            };
-                        }));
-                    }
-                });
-            },
-            minLength: 2,
-            select: function(event, ui) {
-                $("#cityLat").val(ui.item.lat);
-                $("#cityLon").val(ui.item.lon);
-
-                // Enable the "Add City" button once a selection is made
-                $("#addCityButton").prop("disabled", false);
-            }
-        });
-    });
-
-    $("#cityName").on("keyup", function() {
-    $("#addCityButton").prop("disabled", true);
-});
-</script>
+<script th:src="@{/js/user.js}"></script>
 </body>
 </html>
